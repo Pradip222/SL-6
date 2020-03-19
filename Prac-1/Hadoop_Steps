@@ -1,0 +1,171 @@
+java -version
+sudo apt-get install update
+sudo apt-get update
+sudo apt-get install default-jdk
+java -version
+----------------------------------------------------------------------------------------------------------------------------------------------------
+sudo addgroup hadoop
+sudo adduser --ingroup hadoop hduser
+sudo adduser hduser sudo
+sudo apt-get install openssh-server
+svit@svit-System-Product-Name:~$ su - hduser
+hduser@svit-System-Product-Name:~$ ssh-keygen -t rsa -P ""
+hduser@svit-System-Product-Name:~$ cat $HOME/ .ssh/id_rsa.pub >> $HOME/.ssh/authorised_keys
+cat: /home/hduser/: Is a directory
+hduser@svit-System-Product-Name:~$ ssh localhost
+hduser@svit-System-Product-Name:~$ exit
+svit@svit-System-Product-Name:~$ su - hduser
+
+hduser@svit-System-Product-Name:~$ cd /home/svit/Desktop/
+hduser@svit-System-Product-Name:/home/svit/Desktop$~$ ls
+hduser@svit-System-Product-Name:/home/svit/Desktop$~$ exit
+hduser@svit-System-Product-Name:~$ sudo tar -xzvf hadoop-2.9.0.tar.gz 
+hduser@svit-System-Product-Name:/home/svit/Desktop$ ls
+DSBDA  hadoop-2.7.2.tar.gz  hadoop-2.9.0  hadoop-2.9.0.tar.gz  Hadoop-installation-v2.docx  jdk-8u151-linux-x64.tar.gz
+hduser@svit-System-Product-Name:/home/svit/Desktop$ sudo mv hadoop-2.9.0 /usr/local/hadoop
+hduser@svit-System-Product-Name:/home/svit/Desktop$ sudo chown -R hduser /usr/local
+hduser@svit-System-Product-Name:/home/svit/Desktop$ sudo gedit ~/.bashrc
+hduser@svit-System-Product-Name:/home/svit/Desktop$ source ~/.bashrc
+hduser@svit-System-Product-Name:/home/svit/Desktop$ sudo gedit /usr/local/hadoop/etc/hadoop/hadoop-env.sh
+hduser@svit-System-Product-Name:/home/svit/Desktop$ sudo gedit /usr/local/hadoop/etc/hadoop/hadoop-env.sh
+hduser@svit-System-Product-Name:/home/svit/Desktop$ sudo gedit /usr/local/hadoop/etc/hadoop/core-site.xml
+hduser@svit-System-Product-Name:/home/svit/Desktop$ sudo gedit /usr/local/hadoop/etc/hadoop/hdfs-site.xml
+hduser@svit-System-Product-Name:/home/svit/Desktop$ sudo gedit /usr/local/hadoop/etc/hadoop/yarn-site.xml
+hduser@svit-System-Product-Name:/home/svit/Desktop$ sudo cp /usr/local/hadoop/etc/hadoop/mapred-site.xml.template /usr/local/hadoop/mapred-site.xml
+hduser@svit-System-Product-Name:/home/svit/Desktop$ sudo gedit /usr/local/hadoop/etc/hadoop/mapred-site.xml
+hduser@svit-System-Product-Name:/home/svit/Desktop$ sudo cp /usr/local/hadoop/etc/hadoop/mapred-site.xml.template /usr/local/hadoop/mapred-site.xml
+hduser@svit-System-Product-Name:/home/svit/Desktop$ sudo gedit /usr/local/hadoop/etc/hadoop/mapred-site.xml
+hduser@svit-System-Product-Name:/home/svit/Desktop$ sudo gedit /usr/local/hadoop/etc/hadoop/mapred-site.xml
+hduser@svit-System-Product-Name:/home/svit/Desktop$ sudo mkdir -p /usr/local/hadoop_tmp
+hduser@svit-System-Product-Name:/home/svit/Desktop$ sudo mkdir -p /usr/local/hadoop_tmp/hdfs/namenode
+hduser@svit-System-Product-Name:/home/svit/Desktop$ sudo mkdir -p /usr/local/hadoop_tmp/hdfs/datanode
+hduser@svit-System-Product-Name:/home/svit/Desktop$ sudo chown -R hduser /usr/local/hadoop_tmp
+hduser@svit-System-Product-Name:/home/svit/Desktop$ cd
+hduser@svit-System-Product-Name:~$ hdfs namenode -format
+hduser@svit-System-Product-Name:~$ start-dfs.sh
+duser@svit-System-Product-Name:~$ start-yarn.sh
+hduser@svit-System-Product-Name:~$ jps
+7270 SecondaryNameNode
+6938 NameNode
+7085 DataNode
+7725 NodeManager
+7773 Jps
+7423 ResourceManager
+hduser@svit-System-Product-Name:~$ 
+hduser@svit-System-Product-Name:~$ cd /home/svit/Desktop/
+hduser@svit-System-Product-Name:/home/svit/Desktop$ sudo mkdir data
+[sudo] password for hduser: 
+hduser@svit-System-Product-Name:/home/svit/Desktop$ ls
+data  DSBDA  hadoop-2.7.2.tar.gz  hadoop-2.9.0.tar.gz  Hadoop-installation-v2.docx  jdk-8u151-linux-x64.tar.gz
+hduser@svit-System-Product-Name:/home/svit/Desktop$ cd data
+hduser@svit-System-Product-Name:/home/svit/Desktop/data$ sudo gedit sample.txt
+
+(gedit:8085): Gtk-WARNING **: Calling Inhibit failed: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.gnome.SessionManager was not provided by any .service files
+
+** (gedit:8085): WARNING **: Set document metadata failed: Setting attribute metadata::gedit-spell-enabled not supported
+
+** (gedit:8085): WARNING **: Set document metadata failed: Setting attribute metadata::gedit-encoding not supported
+
+** (gedit:8085): WARNING **: Set document metadata failed: Setting attribute metadata::gedit-position not supported
+hduser@svit-System-Product-Name:/home/svit/Desktop/data$ cd
+hduser@svit-System-Product-Name:~$ cd /usr/local/hadoop/
+hduser@svit-System-Product-Name:/usr/local/hadoop$ bin/hdfs dfs -mkdir /user
+18/02/21 22:03:27 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+hduser@svit-System-Product-Name:/usr/local/hadoop$ bin/hdfs dfs -mkdir /user/ypm
+18/02/21 22:03:43 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+hduser@svit-System-Product-Name:/usr/local/hadoop$ bin/hdfs dfs -put /home/svit/Desktop/data /user/input
+18/02/21 22:06:56 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+hduser@svit-System-Product-Name:/usr/local/hadoop$ bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.9.0.jar wordcount /user/input /output
+18/02/21 22:10:22 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+18/02/21 22:10:23 INFO client.RMProxy: Connecting to ResourceManager at /0.0.0.0:8032
+18/02/21 22:10:27 INFO input.FileInputFormat: Total input files to process : 1
+18/02/21 22:10:28 INFO mapreduce.JobSubmitter: number of splits:1
+18/02/21 22:10:28 INFO Configuration.deprecation: yarn.resourcemanager.system-metrics-publisher.enabled is deprecated. Instead, use yarn.system-metrics-publisher.enabled
+18/02/21 22:10:29 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1519229450479_0001
+18/02/21 22:10:34 INFO impl.YarnClientImpl: Submitted application application_1519229450479_0001
+18/02/21 22:10:34 INFO mapreduce.Job: The url to track the job: http://svit-System-Product-Name:8088/proxy/application_1519229450479_0001/
+18/02/21 22:10:34 INFO mapreduce.Job: Running job: job_1519229450479_0001
+18/02/21 22:12:14 INFO mapreduce.Job: Job job_1519229450479_0001 running in uber mode : false
+18/02/21 22:12:14 INFO mapreduce.Job:  map 0% reduce 0%
+18/02/21 22:13:37 INFO mapreduce.Job:  map 100% reduce 0%
+18/02/21 22:14:39 INFO mapreduce.Job:  map 100% reduce 100%
+18/02/21 22:14:45 INFO mapreduce.Job: Job job_1519229450479_0001 completed successfully
+18/02/21 22:14:47 INFO mapreduce.Job: Counters: 49
+	File System Counters
+		FILE: Number of bytes read=180
+		FILE: Number of bytes written=404309
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=233
+		HDFS: Number of bytes written=114
+		HDFS: Number of read operations=6
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+	Job Counters 
+		Launched map tasks=1
+		Launched reduce tasks=1
+		Data-local map tasks=1
+		Total time spent by all maps in occupied slots (ms)=51077
+		Total time spent by all reduces in occupied slots (ms)=44795
+		Total time spent by all map tasks (ms)=51077
+		Total time spent by all reduce tasks (ms)=44795
+		Total vcore-milliseconds taken by all map tasks=51077
+		Total vcore-milliseconds taken by all reduce tasks=44795
+		Total megabyte-milliseconds taken by all map tasks=52302848
+		Total megabyte-milliseconds taken by all reduce tasks=45870080
+	Map-Reduce Framework
+		Map input records=16
+		Map output records=23
+		Map output bytes=217
+		Map output materialized bytes=180
+		Input split bytes=108
+		Combine input records=23
+		Combine output records=15
+		Reduce input groups=15
+		Reduce shuffle bytes=180
+		Reduce input records=15
+		Reduce output records=15
+		Spilled Records=30
+		Shuffled Maps =1
+		Failed Shuffles=0
+		Merged Map outputs=1
+		GC time elapsed (ms)=618
+		CPU time spent (ms)=1640
+		Physical memory (bytes) snapshot=408272896
+		Virtual memory (bytes) snapshot=3894501376
+		Total committed heap usage (bytes)=237502464
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=125
+	File Output Format Counters 
+		Bytes Written=114
+hduser@svit-System-Product-Name:/usr/local/hadoop$ bin/hdfs dfs -cat output/*
+18/02/21 22:15:43 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+are	2
+bye	2
+cluster	1
+hadoop	1
+hello	2
+how	1
+india	3
+installing	1
+itsa	1
+node	1
+pune	2
+single	1
+svit	3
+we	1
+you	1
+hduser@svit-System-Product-Name:/usr/local/hadoop$ exit
+logout
+svit@svit-System-Product-Name:~$ ^C
+svit@svit-System-Product-Name:~$ 
+
+

@@ -1,0 +1,48 @@
+cname <- file.path("~", "Desktop", "texts") ####create texts folder on desktop with one text file for mining  
+cname   
+dir(cname)
+#install tm
+library(tm)
+docs <- VCorpus(DirSource(cname)) #view of your file
+docs <- tm_map(docs,removePunctuation)   
+docs <- tm_map(docs, removeNumbers)   
+docs <- tm_map(docs, tolower)   
+docs <- tm_map(docs, removeWords, stopwords("english"))   
+docs <- tm_map(docs, removeWords, c("syllogism", "tautology"))   
+docs <- tm_map(docs, stripWhitespace)
+docs <- tm_map(docs, PlainTextDocument)
+docs
+dtm <- DocumentTermMatrix(docs)   
+tdm <- TermDocumentMatrix(docs) 
+freq <- colSums(as.matrix(dtm))   
+length(freq)   
+ord <- order(freq)   
+m <- as.matrix(dtm)   
+dim(m)   
+write.csv(m, file="DocumentTermMatrix.csv") 
+dtms <- removeSparseTerms(dtm, 0.1)
+head(table(freq), 20)  
+tail(table(freq), 20)
+freq <- colSums(as.matrix(dtms))   
+freq
+findFreqTerms(dtm, lowfreq=6)
+library(ggplot2)
+wf <- data.frame(word=names(freq), freq=freq)   
+p <- ggplot(subset(wf, freq>6), aes(word, freq))    
+p <- p + geom_bar(stat="identity")   
+p <- p + theme(axis.text.x=element_text(angle=45, hjust=1))   
+p   
+findAssocs(dtm, c("docs"), corlimit=0.1) # specifying a correlation limit of 0.85
+findAssocs(dtms, "think", corlimit=0.70)
+library(wordcloud)   
+dtms <- removeSparseTerms(dtm, 0.15) # Prepare the data (max 15% empty space)   
+freq <- colSums(as.matrix(dtm)) # Find word frequencies   
+dark2 <- brewer.pal(6, "Dark2")   
+wordcloud(names(freq), freq, max.words=100, rot.per=0.2, colors=dark2) 
+library(fpc)   
+library(cluster)  
+dtms <- removeSparseTerms(dtm, 0.15) # Prepare the data (max 15% empty space)   
+d <- dist(t(dtms), method="euclidian")   
+kfit <- kmeans(d, 2)   
+clusplot(as.matrix(d), kfit$cluster, color=T, shade=T, labels=2, lines=0)    
+

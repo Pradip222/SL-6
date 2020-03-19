@@ -1,0 +1,137 @@
+svit@svit-Veriton-M200-H81:~$ sudo -s
+root@svit-Veriton-M200-H81:~# sudo cp /home/svit/Downloads/apache-hive-1.2.2-bin.tar.gz /usr/local
+root@svit-Veriton-M200-H81:~# su -hduser
+Usage: su [options] [LOGIN]
+
+Options:
+  -c, --command COMMAND         pass COMMAND to the invoked shell
+  -h, --help                    display this help message and exit
+  -, -l, --login                make the shell a login shell
+  -m, -p,
+  --preserve-environment        do not reset environment variables, and
+                                keep the same shell
+  -s, --shell SHELL             use SHELL instead of the default in passwd
+
+root@svit-Veriton-M200-H81:~# su - hduser
+hduser@svit-Veriton-M200-H81:~$c sudo cp /home/svit/Desktop /home/hduser
+hduser@svit-Veriton-M200-H81:~$ cd /usr/local/
+hduser@svit-Veriton-M200-H81:/usr/local$ ls
+apache-hive-1.2.2-bin.tar.gz  etc    hadoop      include  man   share
+bin                           games  hadoop_tmp  lib      sbin  src
+hduser@svit-Veriton-M200-H81:/usr/local$ tar -xvzf apache-hive-1.2.2-bin.tar.gz
+hduser@svit-Veriton-M200-H81:/usr/local$ ls
+apache-hive-1.2.2-bin         bin  games   hadoop_tmp  lib  sbin   src
+apache-hive-1.2.2-bin.tar.gz  etc  hadoop  include     man  share
+hduser@svit-Veriton-M200-H81:/usr/local$ sudo mv apache-hive-1.2.2-bin hive
+[sudo] password for hduser: 
+hduser@svit-Veriton-M200-H81:/usr/local$ sudo gedit ~/.bashrc
+
+(gedit:8573): Gtk-WARNING **: Calling Inhibit failed: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.gnome.SessionManager was not provided by any .service files
+
+** (gedit:8573): WARNING **: Set document metadata failed: Setting attribute metadata::gedit-spell-enabled not supported
+
+** (gedit:8573): WARNING **: Set document metadata failed: Setting attribute metadata::gedit-encoding not supported
+
+** (gedit:8573): WARNING **: Set document metadata failed: Setting attribute metadata::gedit-position not supported
+hduser@svit-Veriton-M200-H81:/usr/local$ source ~/.bashrc
+hduser@svit-Veriton-M200-H81:/usr/local$ start-all.sh
+hduser@svit-Veriton-M200-H81:/usr/local$ jps
+4913 NodeManager
+4418 SecondaryNameNode
+4580 ResourceManager
+8948 Jps
+4214 DataNode
+4059 NameNode
+hduser@svit-Veriton-M200-H81:/usr/local$ cd hadoop
+hduser@svit-Veriton-M200-H81:/usr/local/hadoop$ ls
+bin  hadoop-2.9.0  lib      LICENSE.txt  mapred-site.xml  README.txt  share
+etc  include       libexec  logs         NOTICE.txt       sbin
+hduser@svit-Veriton-M200-H81:/usr/local/hadoop$ cd bin
+hduser@svit-Veriton-M200-H81:/usr/local/hadoop/bin$ ls
+container-executor  hdfs      mapred.cmd               yarn
+hadoop              hdfs.cmd  rcc                      yarn.cmd
+hadoop.cmd          mapred    test-container-executor
+hduser@svit-Veriton-M200-H81:/usr/local/hadoop/bin$ hdfs dfs -mkdir -p /usr/hive/warehouse
+18/03/24 16:18:14 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+hduser@svit-Veriton-M200-H81:/usr/local/hadoop/bin$ hdfs dfs -mkdir -p /tmp/hive18/03/24 16:18:47 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+hduser@svit-Veriton-M200-H81:/usr/local/hadoop/bin$ hdfs dfs -chmod 777 /tmp
+18/03/24 16:19:14 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+hduser@svit-Veriton-M200-H81:/usr/local/hadoop/bin$ hdfs dfs -chmod 777 /usr/hive/warehouse
+18/03/24 16:19:46 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+hduser@svit-Veriton-M200-H81:/usr/local/hadoop/bin$ hdfs dfs -chmod 777 /tmp/hive
+18/03/24 16:20:07 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+hduser@svit-Veriton-M200-H81:/usr/local/hadoop/bin$ cd
+hduser@svit-Veriton-M200-H81:~$ cd hive
+-su: cd: hive: No such file or directory
+hduser@svit-Veriton-M200-H81:~$ cd /usr/local/hive/bin
+hduser@svit-Veriton-M200-H81:/usr/local/hive/bin$ ls
+beeline  ext  hive  hive-config.sh  hiveserver2  metatool  schematool
+hduser@svit-Veriton-M200-H81:/usr/local/hive/bin$ ./schematool -initSchema -dbType derby
+18/03/24 16:21:48 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Metastore connection URL:	 jdbc:derby:;databaseName=metastore_db;create=true
+Metastore Connection Driver :	 org.apache.derby.jdbc.EmbeddedDriver
+Metastore connection User:	 APP
+Starting metastore schema initialization to 1.2.0
+Initialization script hive-schema-1.2.0.derby.sql
+Initialization script completed
+schemaTool completed
+hduser@svit-Veriton-M200-H81:/usr/local/hive/bin$ ls
+beeline    ext   hive-config.sh  metastore_db  schematool
+derby.log  hive  hiveserver2     metatool
+hduser@svit-Veriton-M200-H81:/usr/local/hive/bin$ ./hive
+18/03/24 16:22:43 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+
+Logging initialized using configuration in jar:file:/usr/local/hive/lib/hive-common-1.2.2.jar!/hive-log4j.properties
+hive> 
+hive> show databases
+    > ;
+OK
+default
+Time taken: 0.709 seconds, Fetched: 1 row(s)
+hive> show databases;
+OK
+default
+Time taken: 0.018 seconds, Fetched: 1 row(s)
+hive> show tables;
+OK
+Time taken: 0.041 seconds
+hive> create database d1;
+OK
+Time taken: 0.095 seconds
+hive> show databases;
+OK
+d1
+default
+Time taken: 0.023 seconds, Fetched: 2 row(s)
+hive> create table emp(ename string,esal int) row format delimited fields terminated by ',' stored as textfile;
+OK
+Time taken: 0.357 seconds
+hive> show tables;
+OK
+emp
+Time taken: 0.044 seconds, Fetched: 1 row(s)
+hive> load data local inpath '/home/hduser/emp_details.txt' into table emp;
+Loading data to table default.emp
+Table default.emp stats: [numFiles=2, totalSize=232]
+OK
+Time taken: 0.15 seconds
+hive> select * from emp;
+OK
+1 sachin	10000
+2 saurabh	5000
+3 yuvraj	12000
+4 yogesh	9000
+5 rahul	11000
+6 maxwell	15000
+7 marx	20000
+8 stokes	4000
+Time taken: 0.232 seconds, Fetched: 16 row(s)
+hive> exit;
+hduser@svit-Veriton-M200-H81:/usr/local/hive/bin$ 
+
+
+
+
+
+
+

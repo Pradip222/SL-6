@@ -1,0 +1,36 @@
+on hive 
+//1) add these jar file on hive
+
+add jar /usr/local/hbase/lib/protobuf-java-2.5.0.jar
+add jar /usr/local/hbase/lib/zookeeper-3.4.10.jar
+add jar /usr/local/hbase/lib/guava-12.0.1.jar   
+add jar /usr/local/hbase/lib/hbase-common-1.4.0.jar 
+add jar /usr/local/hbase/lib/hbase-common-1.4.0-tests.jar 
+list jar;
+
+//2)set hbase quorum
+hive>set hbase.zookeeper.quorum=localhost;
+
+//3) create table emp
+hive> create table emp1(eid int,ename string,esal string,address string)row format delimited fields terminated by ',' stored as textfile;
+//4) load data into emp
+hive> load data local inpath "/home/student/Desktop/emp_details.txt" into table emp1;
+
+//5) create external table 
+create external TABLE employeehive(eno int,ename string,esal string,address string)STORED BY'org.apache.hadoop.hive.hbase.HBaseStorageHandler' WITH SERDEPROPERTIES("hbase.columns.mapping"=":key,emp:ename,emp:sal,emp:address")TBLPROPERTIES("hbase.table.name"="Employee");
+OK
+Time taken: 3.762 seconds
+
+//6) insert data in external table and load data into hbase Employee table
+hive> insert overwrite table employeehive select eid,ename,esal,address from emp1;
+
+on hbase
+1)create employee table
+hbase(main):006:0> create 'Employee','emp'
+
+2) after 6th command on hive run scan command on hbase to check wheather data is loaded or not
+hbase(main):005:0> scan 'Employee'
+
+
+
+

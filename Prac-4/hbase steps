@@ -1,0 +1,74 @@
+Hbase (Nosql) single node installation
+
+
+Prerequisites 
+
+Hadoop version 2
+
+
+Hbase Installation steps
+
+1.Extract the HBase
+
+2.Open the conf directory
+
+3.Set the java home in hbase-env.sh
+
+//.bashrc
+
+export HBASE_HOME=/usr/local/hbase
+export PATH=$PATH:$HBASE_HOME/bin
+
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+export HADOOP_HOME=/usr/local/hadoop
+
+//hbase-env.sh
+
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+
+hbase-site.xml
+
+------------------
+
+<property>
+<name>hbase.rootdir</name>
+<value>hdfs://localhost:9000/hbase</value>
+</property>
+
+<property>
+<name>hbase.master.port</name>
+<value>60001</value>
+</property>
+
+<property>
+<name>hbase.cluster.distributed</name>
+<value>true</value>
+</property>
+
+<property>
+<name>hbase.zookeeper.property.dataDir</name>
+<value>/usr/local/zookeeper</value>
+</property>
+
+<property>
+<name>hbase.zookeeper.property.maxClientCnxns</name>
+<value>35</value>
+</property>
+—————————–
+
+Start hbase
+
+bin/start-hbase.sh
+
+—————————–
+
+Open your browser  logon to
+
+localhost:16010  (Hbase UI)
+
+——————————-
+
+Open the hbase shell
+
+bin/hbase shell
+

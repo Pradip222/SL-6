@@ -1,0 +1,53 @@
+#! /usr/bin/env Rscript
+# reducer.R - Wordcount program in R
+# script for Reducer (R-Hadoop integration)
+ 
+trimWhiteSpace <- function(line) gsub("(^ +)|( +$)", "", line)
+ 
+splitLine <- function(line) {
+    val <- unlist(strsplit(line, "\t"))
+    list(word = val[1], count = as.integer(val[2]))
+}
+ 
+env <- new.env(hash = TRUE)
+con <- file("stdin", open = "r")
+op <- file("output.txt", open = "w")
+
+H <- c()
+M <- c()
+
+ 
+while (length(line <- readLines(con, n = 1, warn = FALSE)) > 0) {
+    line <- trimWhiteSpace(line)
+    split <- splitLine(line)
+    word <- split$word
+    count <- split$count
+ 
+    if (exists(word, envir = env, inherits = FALSE)) {
+        oldcount <- get(word, envir = env)
+        assign(word, oldcount + count, envir = env)
+    }
+    else assign(word, count, envir = env)
+}
+close(con)
+ 
+for (w in ls(env, all = TRUE))
+{
+#    cat(w, "\n", sep = "",file=op)
+    cat(w, "\t", get(w, envir = env), "\n", sep = "",file=op)
+    H <- c(H , get(w, envir = env))
+    #print (H)
+    M <- c(M , w)
+    #print (M)
+}
+close(op)
+print (H)
+print (M)
+# Give the chart file a name.
+png(file = "barchart_text_minig.png")
+# Plot the bar chart.
+barplot(H,names.arg=M,xlab="Keywords",ylab="Count",col="blue", main="Text Mining",border="red")
+# Save the file.
+dev.off()
+#barplot(H,names.arg=M,xlab="Keywords",ylab="Count",col="blue", main="Text Mining",border="red")
+
